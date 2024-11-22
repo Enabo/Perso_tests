@@ -1,3 +1,106 @@
+<!-- DOCSIBLE START -->
+
+# 📃 Role overview
+
+## obsolan_ZTD
+
+
+
+Description: your role description
+
+
+| Field                | Value           |
+|--------------------- |-----------------|
+| Readme update        | 22/11/2024 |
+
+
+
+
+
+
+
+
+
+### Vars
+
+**These are variables with higher priority**
+#### File: vars/main.yml
+
+| Var          | Type         | Value       |Required    | Title       |
+|--------------|--------------|-------------|-------------|-------------|
+| [SUCCESS](vars/main.yml#L3)   | str   | `OK` |    n/a  |  n/a |
+| [adm_vlan_value](vars/main.yml#L4)   | int   | `300` |    n/a  |  n/a |
+| [adm_vlan_name](vars/main.yml#L5)   | str   | `MSY_ADM` |    n/a  |  n/a |
+
+
+### Tasks
+
+
+#### File: tasks/check_deployment_state.yml
+
+| Name | Module | Has Conditions |
+| ---- | ------ | --------- |
+| Unnamed_block | block | False |
+| Check ssh port |  | False |
+| Unnamed_block | block | True |
+| checking if all values are there | set_fact | True |
+| create an expect script to get mac and serial values even at first log | template | False |
+| set rights so the expect script can be executed | shell | False |
+| MAC and SERIAL value extract | command | False |
+| extract Serial value | set_fact | False |
+| extract MAC value | set_fact | False |
+| Check if the MAC values are matching | set_fact | True |
+| Check if the SERIAL values are matching | set_fact | True |
+| SERIAL and MAC KO | set_fact | True |
+| Unnamed_block | block | True |
+| checking if all values are there | set_fact | True |
+| create an expect script to get mac and serial values | template | False |
+| set rights so the expect script can be executed | shell | False |
+| MAC and SERIAL value extract | command | False |
+| extract SERIAL value | set_fact | False |
+| extract MAC value | set_fact | False |
+| Check if the MAC values are matching | set_fact | True |
+| Check if the SERIAL values are matching | set_fact | True |
+| SERIAL and MAC KO | set_fact | True |
+
+#### File: tasks/configuration_injection.yml
+
+| Name | Module | Has Conditions |
+| ---- | ------ | --------- |
+| Unnamed_block | block | False |
+| write the expect script to set the local admin account | template | False |
+| give the needed rights to execute the expect script | shell | False |
+| execute the expect script to set up the local admin account | command | False |
+| generate the configuration for deployment | template | False |
+| Apply the configuration | arubanetworks.aoscx.aoscx_config | False |
+| set the SUCCESS variable when the configuration are applied | set_fact | False |
+| Unnamed_block | block | True |
+| run show version on remote devices | ansible.netcommon.cli_command | False |
+
+#### File: tasks/reporting.yml
+
+| Name | Module | Has Conditions |
+| ---- | ------ | --------- |
+| Creer un dictionnaire des informations | set_fact | False |
+| Unnamed_block | block | False |
+| Ecrire toutes les informations dans un seul fichier | copy | False |
+| Lire le fichier ALL_hosts.yml | slurp | False |
+| Convertir le contenu en dictionnaire | set_fact | False |
+| Creer le rapport | template | False |
+| Sending an e-mail | community.general.mail | False |
+
+#### File: tasks/main.yml
+
+| Name | Module | Has Conditions |
+| ---- | ------ | --------- |
+| Executer les controles pre-deploiement | include_tasks | False |
+| Injection de configuration | include_tasks | True |
+| creation des rapports de fin de script | include_tasks | False |
+
+
+## Task Flow Graphs
+
+
 ### Graph for configuration_injection.yml
 
 ```mermaid
