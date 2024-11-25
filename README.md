@@ -40,19 +40,19 @@ Description: your role description
 
 | Name | Module | Has Conditions |
 | ---- | ------ | --------- |
-| Unnamed_block | block | False |
+| SSH connection test | block | False |
 | Check ssh port |  | False |
-| Unnamed_block | block | True |
+| Manage the control between the MAC, SERIAL and neighbour values between the firewall and the CSV | block | True |
 | checking if all values are there | set_fact | True |
 | create an expect script to get mac and serial values even at first log | template | False |
 | set rights so the expect script can be executed | shell | False |
 | MAC and SERIAL value extract | command | False |
-| extract Serial value | set_fact | False |
+| extract SERIAL value | set_fact | False |
 | extract MAC value | set_fact | False |
 | Check if the MAC values are matching | set_fact | True |
 | Check if the SERIAL values are matching | set_fact | True |
 | SERIAL and MAC KO | set_fact | True |
-| Unnamed_block | block | True |
+| Manage the control between the MAC, SERIAL and neighbour values between the firewall and the CSV | block | True |
 | checking if all values are there | set_fact | True |
 | create an expect script to get mac and serial values | template | False |
 | set rights so the expect script can be executed | shell | False |
@@ -116,28 +116,28 @@ classDef importRole stroke:#699ba7,stroke-width:2px;
 classDef includeVars stroke:#8e44ad,stroke-width:2px;
 classDef rescue stroke:#665352,stroke-width:2px;
 
-  Start-->|Block Start| Unnamed_task_00_block_start_0[[unnamed task 0]]:::block
-  Unnamed_task_00_block_start_0-->|Task| Check_ssh_port0[check ssh port]:::task
-  Check_ssh_port0-.->|End of Block| Unnamed_task_00_block_start_0
-  Check_ssh_port0-->|Rescue Start| Unnamed_task_00_rescue_start_0[unnamed task 0]:::rescue
-  Unnamed_task_00_rescue_start_0-->|Task| Unnamed_task_00[unnamed task 0]:::task
-  Unnamed_task_00-.->|End of Rescue Block| Unnamed_task_00_block_start_0
-  Unnamed_task_00-->|Block Start| Unnamed_task_11_block_start_0[[unnamed task 1<br>When: **success     ok**]]:::block
-  Unnamed_task_11_block_start_0-->|Task| checking_if_all_values_are_there0[checking if all values are there<br>When: **csv serial value       or csv mac value**]:::task
+  Start-->|Block Start| SSH_connection_test0_block_start_0[[ssh connection test]]:::block
+  SSH_connection_test0_block_start_0-->|Task| Check_ssh_port0[check ssh port]:::task
+  Check_ssh_port0-.->|End of Block| SSH_connection_test0_block_start_0
+  Check_ssh_port0-->|Rescue Start| SSH_connection_test0_rescue_start_0[ssh connection test]:::rescue
+  SSH_connection_test0_rescue_start_0-->|Task| Unnamed_task_00[unnamed task 0]:::task
+  Unnamed_task_00-.->|End of Rescue Block| SSH_connection_test0_block_start_0
+  Unnamed_task_00-->|Block Start| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_block_start_0[[manage the control between the mac  serial and<br>neighbour values between the firewall and the csv<br>When: **success     ok**]]:::block
+  Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_block_start_0-->|Task| checking_if_all_values_are_there0[checking if all values are there<br>When: **csv serial value       or csv mac value**]:::task
   checking_if_all_values_are_there0-->|Task| create_an_expect_script_to_get_mac_and_serial_values_even_at_first_log1[create an expect script to get mac and serial<br>values even at first log]:::task
   create_an_expect_script_to_get_mac_and_serial_values_even_at_first_log1-->|Task| set_rights_so_the_expect_script_can_be_executed2[set rights so the expect script can be executed]:::task
   set_rights_so_the_expect_script_can_be_executed2-->|Task| MAC_and_SERIAL_value_extract3[mac and serial value extract]:::task
-  MAC_and_SERIAL_value_extract3-->|Task| extract_Serial_value4[extract serial value]:::task
-  extract_Serial_value4-->|Task| extract_MAC_value5[extract mac value]:::task
+  MAC_and_SERIAL_value_extract3-->|Task| extract_SERIAL_value4[extract serial value]:::task
+  extract_SERIAL_value4-->|Task| extract_MAC_value5[extract mac value]:::task
   extract_MAC_value5-->|Task| Check_if_the_MAC_values_are_matching6[check if the mac values are matching<br>When: **mac value is not search csv mac value**]:::task
   Check_if_the_MAC_values_are_matching6-->|Task| Check_if_the_SERIAL_values_are_matching7[check if the serial values are matching<br>When: **serial value is not search csv serial value**]:::task
   Check_if_the_SERIAL_values_are_matching7-->|Task| SERIAL_and_MAC_KO8[serial and mac ko<br>When: **serial value is not search csv serial value  and<br>mac value is not search csv mac value**]:::task
-  SERIAL_and_MAC_KO8-.->|End of Block| Unnamed_task_11_block_start_0
-  SERIAL_and_MAC_KO8-->|Rescue Start| Unnamed_task_11_rescue_start_0[unnamed task 1<br>When: **success     ok**]:::rescue
-  Unnamed_task_11_rescue_start_0-->|Task| gestion_des_echecs0[gestion des echecs]:::task
-  gestion_des_echecs0-.->|End of Rescue Block| Unnamed_task_11_block_start_0
-  gestion_des_echecs0-->|Block Start| Unnamed_task_22_block_start_0[[unnamed task 2<br>When: **success     ok**]]:::block
-  Unnamed_task_22_block_start_0-->|Task| checking_if_all_values_are_there0[checking if all values are there<br>When: **csv serial value       or csv mac value**]:::task
+  SERIAL_and_MAC_KO8-.->|End of Block| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_block_start_0
+  SERIAL_and_MAC_KO8-->|Rescue Start| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_rescue_start_0[manage the control between the mac  serial and<br>neighbour values between the firewall and the csv<br>When: **success     ok**]:::rescue
+  Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_rescue_start_0-->|Task| gestion_des_echecs0[gestion des echecs]:::task
+  gestion_des_echecs0-.->|End of Rescue Block| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV1_block_start_0
+  gestion_des_echecs0-->|Block Start| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_block_start_0[[manage the control between the mac  serial and<br>neighbour values between the firewall and the csv<br>When: **success     ok**]]:::block
+  Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_block_start_0-->|Task| checking_if_all_values_are_there0[checking if all values are there<br>When: **csv serial value       or csv mac value**]:::task
   checking_if_all_values_are_there0-->|Task| create_an_expect_script_to_get_mac_and_serial_values1[create an expect script to get mac and serial<br>values]:::task
   create_an_expect_script_to_get_mac_and_serial_values1-->|Task| set_rights_so_the_expect_script_can_be_executed2[set rights so the expect script can be executed]:::task
   set_rights_so_the_expect_script_can_be_executed2-->|Task| MAC_and_SERIAL_value_extract3[mac and serial value extract]:::task
@@ -146,10 +146,10 @@ classDef rescue stroke:#665352,stroke-width:2px;
   extract_MAC_value5-->|Task| Check_if_the_MAC_values_are_matching6[check if the mac values are matching<br>When: **mac value is not search csv mac value**]:::task
   Check_if_the_MAC_values_are_matching6-->|Task| Check_if_the_SERIAL_values_are_matching7[check if the serial values are matching<br>When: **serial value is not search csv serial value**]:::task
   Check_if_the_SERIAL_values_are_matching7-->|Task| SERIAL_and_MAC_KO8[serial and mac ko<br>When: **serial value is not search csv serial value  and<br>mac value is not search csv mac value**]:::task
-  SERIAL_and_MAC_KO8-.->|End of Block| Unnamed_task_22_block_start_0
-  SERIAL_and_MAC_KO8-->|Rescue Start| Unnamed_task_22_rescue_start_0[unnamed task 2<br>When: **success     ok**]:::rescue
-  Unnamed_task_22_rescue_start_0-->|Task| gestion_des_echecs0[gestion des echecs]:::task
-  gestion_des_echecs0-.->|End of Rescue Block| Unnamed_task_22_block_start_0
+  SERIAL_and_MAC_KO8-.->|End of Block| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_block_start_0
+  SERIAL_and_MAC_KO8-->|Rescue Start| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_rescue_start_0[manage the control between the mac  serial and<br>neighbour values between the firewall and the csv<br>When: **success     ok**]:::rescue
+  Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_rescue_start_0-->|Task| gestion_des_echecs0[gestion des echecs]:::task
+  gestion_des_echecs0-.->|End of Rescue Block| Manage_the_control_between_the_MAC__SERIAL_and_neighbour_values_between_the_firewall_and_the_CSV2_block_start_0
   gestion_des_echecs0-->End
 ```
 
@@ -285,4 +285,4 @@ license (GPL-2.0-or-later, MIT, etc)
 #### Platforms
 
 No platforms specified.
-<!-- DOCSIBLE END -->
+<!-- DOCSIBLE END -->[
