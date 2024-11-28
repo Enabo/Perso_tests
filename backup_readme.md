@@ -31,7 +31,7 @@ Description: your role description
 
 | Name | Module | Has Conditions |
 | ---- | ------ | --------- |
-| Unnamed_block | block | False |
+| prepare the folders needed for the backup, deletes the oldest one and create the one needed for today | block | False |
 | set the launch time of the script | set_fact | False |
 | Make sure that the working directory exist | ansible.builtin.file | False |
 | create the folder name as the current date | ansible.builtin.file | False |
@@ -45,19 +45,20 @@ Description: your role description
 | ---- | ------ | --------- |
 | do backup for aruba devices | include_tasks | True |
 | load all the vars to the same host | set_fact | False |
-| Unnamed_block | block | False |
-| Lire le fichier ALL_hosts.yml | slurp | False |
-| Convertir le contenu en dictionnaire | set_fact | False |
+| gather all informations from the script to generate and send the report | block | False |
+| Create a dictionary for all values of the script | copy | False |
+| Get the ALL_host data file | slurp | False |
+| Convert the ALL_host data file into a variable | set_fact | False |
 | set the repport time | set_fact | False |
-| Creer le rapport | template | False |
-| Sending an e-mail | community.general.mail | False |
+| Write the report that will be sent through mail | template | False |
+| Sending the mail with the report as content | community.general.mail | False |
 
 #### File: tasks/backup_mgt/aruba.yml
 
 | Name | Module | Has Conditions |
 | ---- | ------ | --------- |
-| Unnamed_block | block | False |
-| Check ssh port |  | False |
+| Fetch the running-config for aruba devices | block | False |
+| backup the running-config | arubanetworks.aoscx.aoscx_config | False |
 | Report non failling arubas | set_fact | False |
 
 
@@ -79,13 +80,13 @@ classDef importRole stroke:#699ba7,stroke-width:2px;
 classDef includeVars stroke:#8e44ad,stroke-width:2px;
 classDef rescue stroke:#665352,stroke-width:2px;
 
-  Start-->|Block Start| Unnamed_task_00_block_start_0[[unnamed task 0]]:::block
-  Unnamed_task_00_block_start_0-->|Task| set_the_launch_time_of_the_script0[set the launch time of the script]:::task
+  Start-->|Block Start| prepare_the_folders_needed_for_the_backup__deletes_the_oldest_one_and_create_the_one_needed_for_today0_block_start_0[[prepare the folders needed for the backup  deletes<br>the oldest one and create the one needed for today]]:::block
+  prepare_the_folders_needed_for_the_backup__deletes_the_oldest_one_and_create_the_one_needed_for_today0_block_start_0-->|Task| set_the_launch_time_of_the_script0[set the launch time of the script]:::task
   set_the_launch_time_of_the_script0-->|Task| Make_sure_that_the_working_directory_exist1[make sure that the working directory exist]:::task
   Make_sure_that_the_working_directory_exist1-->|Task| create_the_folder_name_as_the_current_date2[create the folder name as the current date]:::task
   create_the_folder_name_as_the_current_date2-->|Task| List_all_the_folder_within_the_working_directory3[list all the folder within the working directory]:::task
   List_all_the_folder_within_the_working_directory3-->|Task| Delete_the_folders_that_are_older_than_30_days4[delete the folders that are older than 30 days<br>When: **item path   basename   limit date**]:::task
-  Delete_the_folders_that_are_older_than_30_days4-.->|End of Block| Unnamed_task_00_block_start_0
+  Delete_the_folders_that_are_older_than_30_days4-.->|End of Block| prepare_the_folders_needed_for_the_backup__deletes_the_oldest_one_and_create_the_one_needed_for_today0_block_start_0
   Delete_the_folders_that_are_older_than_30_days4-->|Include task| backup_mgt_main_yml1[launch the backup<br>include_task: backup mgt main yml]:::includeTasks
   backup_mgt_main_yml1-->End
 ```
@@ -107,14 +108,15 @@ classDef rescue stroke:#665352,stroke-width:2px;
 
   Start-->|Include task| aruba_yml0[do backup for aruba devices<br>When: **aruba  in group names**<br>include_task: aruba yml]:::includeTasks
   aruba_yml0-->|Task| load_all_the_vars_to_the_same_host1[load all the vars to the same host]:::task
-  load_all_the_vars_to_the_same_host1-->|Block Start| Unnamed_task_22_block_start_0[[unnamed task 2]]:::block
-  Unnamed_task_22_block_start_0-->|Task| Lire_le_fichier_ALL_hosts_yml0[lire le fichier all hosts yml]:::task
-  Lire_le_fichier_ALL_hosts_yml0-->|Task| Convertir_le_contenu_en_dictionnaire1[convertir le contenu en dictionnaire]:::task
-  Convertir_le_contenu_en_dictionnaire1-->|Task| set_the_repport_time2[set the repport time]:::task
-  set_the_repport_time2-->|Task| Creer_le_rapport3[creer le rapport]:::task
-  Creer_le_rapport3-->|Task| Sending_an_e_mail4[sending an e mail]:::task
-  Sending_an_e_mail4-.->|End of Block| Unnamed_task_22_block_start_0
-  Sending_an_e_mail4-->End
+  load_all_the_vars_to_the_same_host1-->|Block Start| gather_all_informations_from_the_script_to_generate_and_send_the_report2_block_start_0[[gather all informations from the script to<br>generate and send the report]]:::block
+  gather_all_informations_from_the_script_to_generate_and_send_the_report2_block_start_0-->|Task| Create_a_dictionary_for_all_values_of_the_script0[create a dictionary for all values of the script]:::task
+  Create_a_dictionary_for_all_values_of_the_script0-->|Task| Get_the_ALL_host_data_file1[get the all host data file]:::task
+  Get_the_ALL_host_data_file1-->|Task| Convert_the_ALL_host_data_file_into_a_variable2[convert the all host data file into a variable]:::task
+  Convert_the_ALL_host_data_file_into_a_variable2-->|Task| set_the_repport_time3[set the repport time]:::task
+  set_the_repport_time3-->|Task| Write_the_report_that_will_be_sent_through_mail4[write the report that will be sent through mail]:::task
+  Write_the_report_that_will_be_sent_through_mail4-->|Task| Sending_the_mail_with_the_report_as_content5[sending the mail with the report as content]:::task
+  Sending_the_mail_with_the_report_as_content5-.->|End of Block| gather_all_informations_from_the_script_to_generate_and_send_the_report2_block_start_0
+  Sending_the_mail_with_the_report_as_content5-->End
 ```
 
 
@@ -132,13 +134,13 @@ classDef importRole stroke:#699ba7,stroke-width:2px;
 classDef includeVars stroke:#8e44ad,stroke-width:2px;
 classDef rescue stroke:#665352,stroke-width:2px;
 
-  Start-->|Block Start| Unnamed_task_00_block_start_0[[unnamed task 0]]:::block
-  Unnamed_task_00_block_start_0-->|Task| Check_ssh_port0[check ssh port]:::task
-  Check_ssh_port0-->|Task| Report_non_failling_arubas1[report non failling arubas]:::task
-  Report_non_failling_arubas1-.->|End of Block| Unnamed_task_00_block_start_0
-  Report_non_failling_arubas1-->|Rescue Start| Unnamed_task_00_rescue_start_0[unnamed task 0]:::rescue
-  Unnamed_task_00_rescue_start_0-->|Task| Report_failing_arubas0[report failing arubas]:::task
-  Report_failing_arubas0-.->|End of Rescue Block| Unnamed_task_00_block_start_0
+  Start-->|Block Start| Fetch_the_running_config_for_aruba_devices0_block_start_0[[fetch the running config for aruba devices]]:::block
+  Fetch_the_running_config_for_aruba_devices0_block_start_0-->|Task| backup_the_running_config0[backup the running config]:::task
+  backup_the_running_config0-->|Task| Report_non_failling_arubas1[report non failling arubas]:::task
+  Report_non_failling_arubas1-.->|End of Block| Fetch_the_running_config_for_aruba_devices0_block_start_0
+  Report_non_failling_arubas1-->|Rescue Start| Fetch_the_running_config_for_aruba_devices0_rescue_start_0[fetch the running config for aruba devices]:::rescue
+  Fetch_the_running_config_for_aruba_devices0_rescue_start_0-->|Task| Report_failing_arubas0[report failing arubas]:::task
+  Report_failing_arubas0-.->|End of Rescue Block| Fetch_the_running_config_for_aruba_devices0_block_start_0
   Report_failing_arubas0-->End
 ```
 
@@ -147,7 +149,7 @@ classDef rescue stroke:#665352,stroke-width:2px;
 
 ```yml
 ---
-- name: Playbook for network and cybersecurity running-configuration backup
+- name: Playbook for network and cybersecurity devices running-configuration backup
   hosts: aruba
   gather_facts: no
   vars:
